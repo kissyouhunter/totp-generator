@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TOTP Generator</title>
+  <link rel="stylesheet" href="css/bulma-0.9.4.min.css">
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body > footer {
+      position: sticky;
+      top: 100vh;
+    }
+
+    .notification {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer {
+      padding: 2rem;
+    }
+
+    @media screen and (min-width: 1068px) {
+      .container {
+        max-width: 600px;
+        width: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <script defer src="js/vue-3.3.2.global.prod.js"></script>
+  <script defer src="js/otpauth-9.1.3.min.js"></script>
+  <script defer src="js/clipboard-2.0.6.min.js"></script>
+  <script defer src="js/app.js?v=1.2"></script>
+
+  <section id="app" class="section" v-cloak>
+
+    <div class="container">
+
+      <h1 class="title">TOTP 二步验证码获取工具</h1>
+
+      <div class="field">
+        <label class="label is-uppercase">秘钥</label>
+        <div class="control">
+          <input class="input" type="text" v-model="secret_key" placeholder="The secret key (in base-32 format)">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-uppercase">令牌（默认六位）</label>
+        <div class="control">
+          <input class="input" type="text" v-model="digits" placeholder="Usually 6">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-uppercase">令牌失效时间(秒)</label>
+        <div class="control">
+          <input class="input" type="text" v-model="period" placeholder="Usually 30">
+        </div>
+      </div>
+
+      <div class="content">
+        <span class="has-text-grey is-size-7">{{ updatingIn }}秒后更新</span>
+        <progress class="progress is-info is-small" v-bind:value="updatingIn" :max="period"></progress>
+      </div>
+
+      <div class="box">
+        <p class="title is-size-1 has-text-centered" id="token">{{ token }}</p>
+      </div>
+
+      <div class="control" style="display: flex; justify-content: center;">
+        <a class="button is-large is-light" id="clipboard-button" data-clipboard-target="#token" title="点击复制令牌">
+          <img src="img/clippy.svg" height="40" width="40">
+        </a>
+      </div>
+    </div>
+    <div class="notification is-info" style="margin-top: 20px">
+      <p style="text-align:center;margin-top:5px;">
+        在<strong><span style="color: rgb(255, 255, 0);">“秘钥”</span></strong>输入框中输入账号的秘钥
+      </p>
+      <p style="text-align:center;margin-top:5px;">
+        令牌位数和失效时间保持默认即可
+      </p>
+      <p style="text-align:center;margin-top:5px;">
+        点击上方按钮复制令牌
+      </p>
+      <p style="text-align:center;margin-top:5px;">
+        问题反馈
+        <a href="https://t.me/kissyouhunter" target="_blank" style="color: yellow; text-decoration: underline;">
+        kissyouhunter</a>
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        Source on <a href="https://github.com/jaden/totp-generator">Github</a>.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
